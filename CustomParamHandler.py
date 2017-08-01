@@ -171,6 +171,7 @@ class BurpExtender(IBurpExtender, IContextMenuFactory, IExtensionStateListener, 
                                     tab.namepane_txtfield.getText(), cname, cvalue))
 
         try:
+            MainTab.sgl_cached_request = tab.request
             httpsvc = self.helpers.buildHttpService(host, port, https)
             resp = self.callbacks.makeHttpRequest(httpsvc, tab.request).getResponse()
             self.logger.debug('Issued configured request from tab "{}" to host "{}"'.format(
@@ -179,6 +180,7 @@ class BurpExtender(IBurpExtender, IContextMenuFactory, IExtensionStateListener, 
                 tab.param_handl_response_editor.setMessage(resp, False)
                 tab.response = resp
                 self.logger.debug('Got response!')
+                MainTab.sgl_cached_response = resp
         # Generic except because misc. Java exceptions might occur.
         except:
             self.logger.exception('Error issuing configured request from tab "{}" to host "{}"'.format(
@@ -407,6 +409,23 @@ class BurpExtender(IBurpExtender, IContextMenuFactory, IExtensionStateListener, 
             try:
                 match = search(ph_field_extract_cached_txt,
                                   self.helpers.bytesToString(tab.param_handl_cached_resp_viewer.getMessage()))
+            except re_error:
+                self.logger.exception(exc_search_for_exp.format(
+                    ph_field_extract_cached_txt))
+            if match:
+                replace_value = match.group(0)
+                if match.groups():
+                    replace_value = match.group(1)
+                self.logger.debug(dbg_extracted_repl.format(ph_field_extract_cached_txt))
+                self.logger.debug(dbg_new_repl_val.format(replace_value))
+            else:
+                self.logger.debug(dbg_extract_repl_fail.format(
+                    ph_field_extract_cached_txt))
+        elif tab.param_handl_combo_extract.getSelectedItem() == tab.PARAM_HANDL_COMBO_EXTRACT_SCACHED:
+            self.logger.info('Scached: using a static field on main tab to get a value cached from previous tabs single req')
+            try:
+                match = search(ph_field_extract_cached_txt,
+                                  self.helpers.bytesToString(MainTab.sgl_cached_response))
             except re_error:
                 self.logger.exception(exc_search_for_exp.format(
                     ph_field_extract_cached_txt))

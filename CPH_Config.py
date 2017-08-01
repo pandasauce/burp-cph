@@ -78,6 +78,8 @@ class MainTab(ITab, ChangeListener):
         self.mainpane.add('Options', self.options_tab)
         self._add_sign = unichr(0x002b)  # addition sign
         self.mainpane.add(self._add_sign, JPanel())
+        self.sgl_cached_request = None
+        self.sgl_cached_response = None
 
         class Action(AbstractAction):
             def __init__(self, action):
@@ -951,6 +953,7 @@ class ConfigTab(SubTab):
         SubTab.__init__(self, cph)
         self.request, self.response = self.initialize_req_resp()
         self.cached_request, self.cached_response = self.initialize_req_resp()
+        MainTab.sgl_cached_request, MainTab.sgl_cached_response = self.initialize_req_resp()
         if message:
             self.request = message.getRequest()
             resp = message.getResponse()
