@@ -930,11 +930,13 @@ class ConfigTab(SubTab):
     PARAM_HANDL_COMBO_EXTRACT_SINGLE  = 'a value returned by issuing a single request'
     PARAM_HANDL_COMBO_EXTRACT_MACRO   = 'a value returned by issuing a sequence of requests'
     PARAM_HANDL_COMBO_EXTRACT_CACHED  = 'a value in the cached response of a previous CPH tab'
+    PARAM_HANDL_COMBO_EXTRACT_SCACHED = 'a value in the cached response of a previous CPH tab single request'
     PARAM_HANDL_COMBO_EXTRACT_CHOICES = [
-        PARAM_HANDL_COMBO_EXTRACT_STATIC,
-        PARAM_HANDL_COMBO_EXTRACT_SINGLE,
-        PARAM_HANDL_COMBO_EXTRACT_MACRO ,
-        PARAM_HANDL_COMBO_EXTRACT_CACHED,
+        PARAM_HANDL_COMBO_EXTRACT_STATIC ,
+        PARAM_HANDL_COMBO_EXTRACT_SINGLE ,
+        PARAM_HANDL_COMBO_EXTRACT_MACRO  ,
+        PARAM_HANDL_COMBO_EXTRACT_CACHED ,
+        PARAM_HANDL_COMBO_EXTRACT_SCACHED,
     ]
     PARAM_HANDL_EXTRACT_STATIC      = 'Please note: line separators in this multiline field will be converted to 0x0d0a in the resulting HTTP request'
     PARAM_HANDL_UPDATE_COOKIES      = 'Update cookies'
